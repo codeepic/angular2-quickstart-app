@@ -1,24 +1,14 @@
 import {Component} from 'angular2/core'        //import statenent to reference things we need
-
-interface Hero {
-    id: number;
-    name: string;
-}
+import {Hero} from './hero';
+import {HeroDetailComponent} from './hero-detail.component';
 
 @Component({                                            //@Component decorator tells Angular what template to use & how to create it
     selector: 'my-app',                                 //@Component is a decorator function that takes a metadata object which tells
     template: `
         <h1>{{title}}</h1>
         
-        <div *ngIf="selectedHero">
-            <h2>{{selectedHero.name}} details!</h2>
-            <div><label>id: </label>{{selectedHero.id}}</div>
-            <div>
-                <label>name: </label>
-                <input [(ngModel)]="selectedHero.name" placeholder="name"/>
-            </div>
-        </div>
-        
+        <my-hero-detail [hero]="selectedHero"></my-hero-detail>
+                
         <h2>Heroes</h2>
         <ul class='heroes'>
             <li *ngFor="#hero of heroes" (click) = "onSelect(hero)" [class.selected]="hero===selectedHero">
@@ -75,7 +65,8 @@ interface Hero {
             margin-right: .8em;
             border-radius: 4px 0 0 4px;
         }
-        `]
+        `],
+    directives: [HeroDetailComponent]
 })
 
 //<input value="{{hero.name}}" placeholder="name" />
