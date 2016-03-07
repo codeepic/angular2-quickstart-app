@@ -1,6 +1,8 @@
 import {Component} from 'angular2/core'        //import statenent to reference things we need
+import {OnInit} from 'angular2/core';
 import {Hero} from './hero';
 import {HeroDetailComponent} from './hero-detail.component';
+import {HeroService} from './hero.service';
 
 @Component({                                            //@Component decorator tells Angular what template to use & how to create it
     selector: 'my-app',                                 //@Component is a decorator function that takes a metadata object which tells
@@ -66,34 +68,38 @@ import {HeroDetailComponent} from './hero-detail.component';
             border-radius: 4px 0 0 4px;
         }
         `],
-    directives: [HeroDetailComponent]
+    directives: [HeroDetailComponent],
+    providers: [HeroService]
 })
 
 //<input value="{{hero.name}}" placeholder="name" />
 
 export class AppComponent{                  // component class that controls the appearance & behaviour of a view
     public title = 'Tour of Heroes';
-    public heroes = HEROES;
+    public heroes: Hero[];
     public selectedHero: Hero;
+    
+    constructor(private _heroService: HeroService){}
+    
+    ngOnInit(){
+        this.getHeroes();
+    }
+    
+    private getHeroes() {
+        //this.heroes = this._heroService.getHeroes();
+        this._heroService.getHeroes()
+            .then((heroesResult) => {
+                this.heroes = heroesResult;
+            }, (e) => {
+                console.log('something went wrong when fetching heroes');
+            });
+    }
     
     public onSelect(hero: Hero): void {
         console.log('selected: ', hero);
         this.selectedHero = hero;
     }
 }
-
-var HEROES: Hero[] = [
-  { "id": 11, "name": "Mr. Nice" },
-  { "id": 12, "name": "Narco" },
-  { "id": 13, "name": "Bombasto" },
-  { "id": 14, "name": "Celeritas" },
-  { "id": 15, "name": "Magneta" },
-  { "id": 16, "name": "RubberMan" },
-  { "id": 17, "name": "Dynama" },
-  { "id": 18, "name": "Dr IQ" },
-  { "id": 19, "name": "Magma" },
-  { "id": 20, "name": "Tornado" }
-];
 
 //AppComponent is the root of the application
 //every ANgular 2 app has at least oone root component, conventionally named AppComponent
