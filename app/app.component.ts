@@ -4,6 +4,7 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router'
 import {DashboardComponent} from './dashboard.component';
 import {HeroesComponent} from './heroes.component';
 import {HeroService} from './hero.service';
+import {HeroDetailComponent} from './hero-detail.component';
 
 @Component({
     selector: 'my-app',
@@ -15,7 +16,6 @@ import {HeroService} from './hero.service';
     </nav>
     <router-outlet></router-outlet>
     `,
-    //directives: [HeroesComponent, ROUTER_DIRECTIVES],
     directives: [ROUTER_DIRECTIVES],
     providers: [
         ROUTER_PROVIDERS,
@@ -34,6 +34,11 @@ import {HeroService} from './hero.service';
         name: 'Dashboard',
         component: DashboardComponent,
         useAsDefault: true
+    },
+    {
+        path: '/detail/:id',
+        name: 'HeroDetail',
+        component: HeroDetailComponent
     }
 ])
 

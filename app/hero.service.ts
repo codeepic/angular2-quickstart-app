@@ -6,8 +6,19 @@ import {Hero} from './hero';
 
 export class HeroService{
     getHeroes(){
-        //return HEROES;
         return Promise.resolve(HEROES);        
+    }
+    
+    //not working
+    // getHero(id: number){
+    //     return Promise.resolve(HEROES[id]);
+    // }
+    
+    getHero(id: number) {
+        return Promise.resolve(HEROES).then(
+            heroes => heroes.filter(hero => hero.id === id)[0]
+            
+        );
     }
     
     getHeroesSlowly(){
